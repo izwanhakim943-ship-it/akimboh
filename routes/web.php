@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MusicController;
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [
@@ -19,7 +20,22 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::view('/', 'dashboard')->name('dashboard');
 
-    Route::view('/music', 'music')->name('music');
+    
+Route::get('/music', [MusicController::class, 'index'])
+    ->name('music');
+
+Route::post('/music', [MusicController::class, 'store'])
+    ->name('music.store');
+
+Route::get('/music/files/{song}/audio', [MusicController::class, 'audio'])
+    ->name('music.audio');
+
+Route::get('/music/files/{song}/cover', [MusicController::class, 'cover'])
+    ->name('music.cover');
+
+Route::delete('/music/{song}', [MusicController::class, 'destroy'])
+    ->name('music.destroy');
+
 
     Route::view('/money', 'money')->name('money');
 

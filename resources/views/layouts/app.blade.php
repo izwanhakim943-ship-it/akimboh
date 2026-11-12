@@ -149,7 +149,8 @@
     @persist('akimboh-global-player')
         <div
             class="music-dock"
-            x-data="{
+            x-on:akimboh:play.window="loadFromLibrary($event.detail)"
+    x-data="{
                 title: 'No track selected',
                 artist: 'Your personal sound system',
                 source: null,
@@ -179,6 +180,30 @@
                         this.playing = false;
                     });
                 },
+
+loadFromLibrary(song) {
+    if (!song || !song.url) return;
+
+    if (this.source && this.source.startsWith('blob:')) {
+        URL.revokeObjectURL(this.source);
+    }
+
+    this.source = song.url;
+    this.title = song.title || 'Untitled Track';
+    this.artist = song.artist || 'Unknown Artist';
+
+    this.current = 0;
+    this.duration = 0;
+    this.progress = 0;
+    this.playing = false;
+
+    this.$refs.audio.src = song.url;
+    this.$refs.audio.load();
+
+    this.$refs.audio.play().catch(() => {
+        this.playing = false;
+    });
+},
 
                 toggle() {
                     if (!this.$refs.audio.src) return;
