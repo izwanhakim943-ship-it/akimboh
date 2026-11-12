@@ -93,14 +93,33 @@
                     <strong>@yield('title', 'Dashboard')</strong>
                 </div>
 
-                <div class="topbar-right">
-                    <span class="topbar-status">
-                        <span class="status-dot"></span>
-                        YOUR SPACE IS LIVE
-                    </span>
+              <span class="topbar-status">
+        <span class="status-dot"></span>
+        YOUR SPACE IS LIVE
+    </span>
 
-                    <div class="avatar" aria-label="AkimBOH workspace">A</div>
-                </div>
+    <div class="avatar" aria-label="Account avatar">
+        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+    </div>
+
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+
+        <button
+            type="submit"
+            style="border:1px solid #ffffff25;
+                   background:#ffffff0a;
+                   border-radius:10px;
+                   padding:11px 14px;
+                   color:#d6c2ff;
+                   font-size:11px;
+                   font-weight:700;"
+        >
+            LOG OUT ↗
+        </button>
+    </form>
+
+</div>
             </header>
 
             <nav class="mobile-nav" aria-label="Mobile navigation">
